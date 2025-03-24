@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAPPP</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>SAPPP Diário</h1>
+    </header>
+
+    <div class="container">
+        <div class="button-container">
+            <button id="showLinesButton">Mostrar Itens do Dia</button>
+        </div>
+
+        <div id="linesContainer"></div>
+
+        <table id="itemsTable">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Linhas preenchidas dinamicamente -->
+            </tbody>
+        </table>
+
+        <h2>Itens Visualizados</h2>
+        <div class="calendar" id="calendar"></div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 DFS. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Modal para exibir detalhes -->
+    <dialog id="dialogBox">
+        <h2>Detalhes do Item</h2>
+        <p><strong>Item:</strong> <span id="modalItem"></span></p>
+        <p><strong>Orientação:</strong> <span id="modalOrientation"></span></p>
+        <p><strong>Referência:</strong> <span id="modalReference"></span></p>
+        <button id="closeDialog">Fechar</button>
+    </dialog>
+
+    <script src="{{ url_for('static', filename='scripts/script.js') }}"></script>
+</body>
+</html>
