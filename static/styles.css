@@ -25,7 +25,7 @@ header, footer {
     text-align: center;
     min-width: 300px;
     max-width: 1200px;
-    height: 400px;
+    height: auto; /* Alterado de 400px para 'auto' para permitir flexibilidade */
     overflow: auto;
 }
 
@@ -42,7 +42,8 @@ button {
     cursor: pointer;
     font-size: 16px;
     margin: 10px;
-    width: 200px;
+    width: 100%; /* Alterado para 100% para ocupar toda a largura do contêiner */
+    max-width: 200px; /* Para evitar que o botão fique muito grande em telas grandes */
     transition: transform 0.3s, background-color 0.3s;
 }
 
@@ -76,7 +77,7 @@ tr:hover {
 
 #calendar {
     display: grid;
-    grid-template-columns: repeat(23, 1fr); /* 67 itens divididos em 3 linhas ≈ 23 por linha */
+    grid-template-columns: repeat(23, 1fr); /* Ajuste para 23 colunas */
     gap: 5px;
     width: 100%;
     max-width: 800px;
@@ -99,7 +100,6 @@ tr:hover {
     font-weight: bold;
 }
 
-
 /* Estilização do modal */
 dialog {
     width: 50%;
@@ -114,6 +114,38 @@ dialog::backdrop {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
+/* Responsividade para dispositivos móveis */
+@media (max-width: 768px) {
+    .container {
+        width: 90%; /* Reduz a largura da container */
+        padding: 10px; /* Menos padding em telas menores */
+    }
+
+    button {
+        width: 100%; /* Garante que o botão ocupe toda a largura da tela */
+        font-size: 14px; /* Reduz o tamanho da fonte do botão */
+    }
+
+    table {
+        font-size: 14px; /* Reduz o tamanho da fonte da tabela */
+    }
+
+    dialog {
+        width: 90%; /* Reduz o modal para 90% da tela */
+    }
+
+    #calendar {
+        grid-template-columns: repeat(7, 1fr); /* Ajusta o calendário para 7 colunas */
+    }
+
+    #calendar div {
+        width: 25px;
+        height: 25px;
+        font-size: 12px;
+    }
+}
+
+/* Tooltip */
 .tooltip-box {
     position: absolute;
     background-color: rgba(0, 0, 0, 0.8);
