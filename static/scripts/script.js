@@ -29,15 +29,15 @@ document.getElementById('showLinesButton').addEventListener('click', function() 
                 const itemCell = newRow.insertCell(0);
                 const actionCell = newRow.insertCell(1);
 
-                itemCell.innerText = line[1] || "Sem informação";
+                itemCell.innerText = line.descricao || "Sem informação";
 
                 // Criar botão para abrir o modal
                 const btn = document.createElement('button');
                 btn.innerText = "Ver Detalhes";
                 btn.classList.add('open-dialog');
-                btn.dataset.item = line[1] || "Sem informação";
-                btn.dataset.orientation = line[5] || "Sem orientação";
-                btn.dataset.reference = line[6] || "Sem referência";
+                btn.dataset.item = line.descricao || "Sem informação";
+                btn.dataset.orientation = line.orientacao || "Sem orientação";
+                btn.dataset.reference = line.referencia || "Sem referência";
                 
                 actionCell.appendChild(btn);
 
