@@ -49,7 +49,7 @@ document.getElementById('showLinesButton').addEventListener('click', function() 
                 });
 
                 // Marcar os itens visualizados no calendário
-                const dayElement = document.getElementById(`day-${line[0]}`);
+                const dayElement = document.getElementById(`day-${line.numero}`);
                 if (dayElement) {
                     dayElement.classList.add('viewed');
                     viewedItems.add(line[0]);
