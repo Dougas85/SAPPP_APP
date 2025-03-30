@@ -56,10 +56,10 @@ def get_lines():
     for index in indices:
         item = rows[index]
         rows_to_show.append({
-            "descricao": item[2],    # Mostra a descrição completa do item na lista principal
-            "numero": item[1],       # Número correto do item (1 a 58)
-            "orientacao": item[-3],  # Coluna correta da orientação
-            "referencia": item[-2]   # Última coluna do CSV (Referência)
+            "descricao": item[1],    # Mostra a descrição completa do item na lista principal
+            "numero": item[0],       # Número correto do item (1 a 58)
+            "orientacao": item[5],  # Coluna correta da orientação
+            "referencia": item[6]   # Última coluna do CSV (Referência)
         })
     
     return jsonify(rows_to_show)
