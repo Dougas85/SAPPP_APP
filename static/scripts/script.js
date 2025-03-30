@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const calendar = document.getElementById('calendar');
 
-    for (let i = 1; i <= 67; i++) {
+    for (let i = 1; i <= 58; i++) {
         const day = document.createElement('div');
         day.innerText = i;
         day.id = `day-${i}`;
@@ -29,15 +29,15 @@ document.getElementById('showLinesButton').addEventListener('click', function() 
                 const itemCell = newRow.insertCell(0);
                 const actionCell = newRow.insertCell(1);
 
-                itemCell.innerText = line[1] || "Sem informação";
+                itemCell.innerText = line[2] || "Sem informação";
 
                 // Criar botão para abrir o modal
                 const btn = document.createElement('button');
                 btn.innerText = "Ver Detalhes";
                 btn.classList.add('open-dialog');
-                btn.dataset.item = line[1] || "Sem informação";
-                btn.dataset.orientation = line[5] || "Sem orientação";
-                btn.dataset.reference = line[6] || "Sem referência";
+                btn.dataset.item = line[2] || "Sem informação";
+                btn.dataset.orientation = line[6] || "Sem orientação";
+                btn.dataset.reference = line[7] || "Sem referência";
                 
                 actionCell.appendChild(btn);
 
@@ -57,7 +57,7 @@ document.getElementById('showLinesButton').addEventListener('click', function() 
             });
 
             // Resetar calendário se todos os itens foram visualizados
-            if (viewedItems.size === 67) {
+            if (viewedItems.size === 58) {
                 viewedItems.clear();
                 document.querySelectorAll('.calendar div').forEach(day => {
                     day.classList.remove('viewed');
