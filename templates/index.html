@@ -27,6 +27,11 @@
                 </tr>
             </thead>
             <tbody>
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Pesquisar itens..." />
+                    <button id="searchButton">Pesquisar</button>
+                </div>
+                
                 <!-- Linhas preenchidas dinamicamente -->
             </tbody>
         </table>
@@ -52,3 +57,4 @@
     <script src="{{ url_for('static', filename='scripts/script.js') }}"></script>
 </body>
 </html>
+
