@@ -154,6 +154,25 @@ def get_item_details(item_num):
     
     return jsonify({"error": "Item não encontrado"}), 404
 
+@app.route('/search_items/<search_query>')
+def search_items(search_query):
+    """Retorna os itens que correspondem à pesquisa."""
+    rows = get_valid_csv_data()
+
+    # Filtra os itens com base na pesquisa (ignora maiúsculas/minúsculas)
+    filtered_items = [
+        {
+            "descricao": item[1],
+            "numero": item[0],
+            "orientacao": item[5] if len(item) > 5 else "Sem orientação",
+            "referencia": item[6] if len(item) > 6 else "Sem referência"
+        }
+        for item in rows if search_query.lower() in item[1].lower()
+    ]
+
+    return jsonify(filtered_items)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)
