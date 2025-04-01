@@ -1,30 +1,30 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const calendar = document.getElementById('calendar');
 
     for (let i = 1; i <= 58; i++) {
         const day = document.createElement('div');
-        day.innerText = i;
+        day.innerText = i;  // Garante que o número do item apareça dentro da bolinha
         day.id = `day-${i}`;
+        day.classList.add('calendar-item', 'red-item'); // Classe para estilo e clique
         calendar.appendChild(day);
+
+        // Adicionar evento de clique para exibir detalhes do item sem sortear
+        day.addEventListener("click", function () {
+            showItemDetails(i);
+        });
     }
 });
 
 let viewedItems = new Set();
 
-document.getElementById('showLinesButton').addEventListener('click', function() {
+document.getElementById('showLinesButton').addEventListener('click', function () {
     fetch('/get_lines')
         .then(response => response.json())
         .then(data => {
-            const linesContainer = document.getElementById('linesContainer');
-            linesContainer.innerHTML = '';
-
             const tableBody = document.getElementById('itemsTable').querySelector('tbody');
+            tableBody.innerHTML = ''; // Limpa a tabela antes de adicionar novos itens
 
-            while (tableBody.firstChild) {
-                tableBody.removeChild(tableBody.firstChild);
-            }
-
-            data.forEach((line, index) => {
+            data.forEach((line) => {
                 const newRow = tableBody.insertRow();
                 const itemCell = newRow.insertCell(0);
                 const actionCell = newRow.insertCell(1);
@@ -38,10 +38,10 @@ document.getElementById('showLinesButton').addEventListener('click', function() 
                 btn.dataset.item = line.descricao || "Sem informação";
                 btn.dataset.orientation = line.orientacao || "Sem orientação";
                 btn.dataset.reference = line.referencia || "Sem referência";
-                
+
                 actionCell.appendChild(btn);
 
-                btn.addEventListener('click', function() {
+                btn.addEventListener('click', function () {
                     document.getElementById('modalItem').innerText = this.dataset.item;
                     document.getElementById('modalOrientation').innerText = this.dataset.orientation;
                     document.getElementById('modalReference').innerText = this.dataset.reference;
@@ -51,16 +51,18 @@ document.getElementById('showLinesButton').addEventListener('click', function() 
                 // Marcar os itens visualizados no calendário
                 const dayElement = document.getElementById(`day-${line.numero}`);
                 if (dayElement) {
-                    dayElement.classList.add('viewed');
-                    viewedItems.add(line[0]);
+                    dayElement.classList.remove('red-item');
+                    dayElement.classList.add('viewed'); // Muda para verde
+                    viewedItems.add(line.numero);
                 }
             });
 
             // Resetar calendário se todos os itens foram visualizados
             if (viewedItems.size === 58) {
                 viewedItems.clear();
-                document.querySelectorAll('.calendar div').forEach(day => {
+                document.querySelectorAll('.calendar-item').forEach(day => {
                     day.classList.remove('viewed');
+                    day.classList.add('red-item');
                 });
             }
         })
@@ -68,6 +70,26 @@ document.getElementById('showLinesButton').addEventListener('click', function() 
 });
 
 // Fechar modal
-document.getElementById('closeDialog').addEventListener('click', function() {
+document.getElementById('closeDialog').addEventListener('click', function () {
     document.getElementById('dialogBox').close();
 });
+
+// Função para exibir detalhes ao clicar nos itens vermelhos
+function showItemDetails(itemNum) {
+    fetch(`/get_item_details/${itemNum}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert("Item não encontrado!");
+            } else {
+                document.getElementById("modalItem").innerText = data.numero;
+                document.getElementById("modalDescription").innerText = data.descricao;
+                document.getElementById("modalOrientation").innerText = data.orientacao;
+                document.getElementById("modalReference").innerText = data.referencia;
+
+                document.getElementById("dialogBox").showModal();
+            }
+        })
+        .catch(error => console.error("Erro ao buscar detalhes:", error));
+}
+
