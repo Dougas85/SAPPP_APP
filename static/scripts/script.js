@@ -29,24 +29,25 @@ document.addEventListener('DOMContentLoaded', function () {
                     const itemCell = newRow.insertCell(0);
                     const actionCell = newRow.insertCell(1);
 
-                    itemCell.innerText = line.descricao || "Sem informação";
+                    // Verifica se a descrição está presente
+                    const descricao = line.descricao || "Sem informação";
+                    itemCell.innerText = `Item ${line.numero}: ${descricao}`;
 
                     // Criar botão para abrir o modal
                     const btn = document.createElement('button');
                     btn.innerText = "Ver Detalhes";
                     btn.classList.add('open-dialog');
-                    btn.dataset.item = line.descricao || "Sem informação";
-                    btn.dataset.orientation = line.orientacao || "Sem orientação";
-                    btn.dataset.reference = line.referencia || "Sem referência";
 
-                    actionCell.appendChild(btn);
-
+                    // Evento de clique para abrir o modal com os dados corretos
                     btn.addEventListener('click', function () {
-                        document.getElementById('modalItem').innerText = this.dataset.item;
-                        document.getElementById('modalOrientation').innerText = this.dataset.orientation;
-                        document.getElementById('modalReference').innerText = this.dataset.reference;
+                        document.getElementById('modalItem').innerText = `Item ${line.numero}`;
+                        document.getElementById('modalOrientation').innerText = line.orientacao || "Sem orientação";
+                        document.getElementById('modalReference').innerText = line.referencia || "Sem referência";
+                        document.getElementById('modalDescription').innerText = descricao; // Agora exibe a descrição correta
                         document.getElementById('dialogBox').showModal();
                     });
+
+                    actionCell.appendChild(btn);
 
                     // Marcar os itens visualizados no calendário
                     const dayElement = document.getElementById(`day-${line.numero}`);
@@ -74,18 +75,21 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('dialogBox').close();
     });
 
-    // Função para exibir detalhes ao clicar nos itens vermelhos
+    // Função para exibir detalhes ao clicar nos itens do calendário
     function showItemDetails(itemNum) {
         fetch(`/get_item_details/${itemNum}`)
             .then(response => response.json())
             .then(data => {
+                console.log("Detalhes do item:", data);  // Verifique a estrutura dos dados retornados
+
                 if (data.error) {
                     alert("Item não encontrado!");
                 } else {
-                    document.getElementById("modalItem").innerText = data.numero;
-                    document.getElementById("modalDescription").innerText = data.descricao;
-                    document.getElementById("modalOrientation").innerText = data.orientacao;
-                    document.getElementById("modalReference").innerText = data.referencia;
+                    // Garantir que todos os dados estejam presentes, incluindo a descrição
+                    document.getElementById("modalItem").innerText = `Item ${data.numero}`;
+                    document.getElementById("modalOrientation").innerText = data.orientacao || "Sem orientação";
+                    document.getElementById("modalReference").innerText = data.referencia || "Sem referência";
+                    document.getElementById("modalDescription").innerText = data.descricao || "Sem informação";  // Mostrar descrição no modal
 
                     document.getElementById("dialogBox").showModal();
                 }
@@ -113,26 +117,30 @@ document.addEventListener('DOMContentLoaded', function () {
                     const itemCell = newRow.insertCell(0);
                     const actionCell = newRow.insertCell(1);
 
-                    itemCell.innerText = line.descricao || "Sem informação";
+                    // Verifica se a descrição está presente
+                    const descricao = line.descricao || "Sem informação";
+                    itemCell.innerText = `Item ${line.numero}: ${descricao}`;
 
                     // Criar botão para abrir o modal
                     const btn = document.createElement('button');
                     btn.innerText = "Ver Detalhes";
                     btn.classList.add('open-dialog');
-                    btn.dataset.item = line.descricao || "Sem informação";
-                    btn.dataset.orientation = line.orientacao || "Sem orientação";
-                    btn.dataset.reference = line.referencia || "Sem referência";
 
-                    actionCell.appendChild(btn);
-
+                    // Evento de clique para abrir o modal com os dados corretos
                     btn.addEventListener('click', function () {
-                        document.getElementById('modalItem').innerText = this.dataset.item;
-                        document.getElementById('modalOrientation').innerText = this.dataset.orientation;
-                        document.getElementById('modalReference').innerText = this.dataset.reference;
+                        document.getElementById('modalItem').innerText = `Item ${line.numero}`;
+                        document.getElementById('modalOrientation').innerText = line.orientacao || "Sem orientação";
+                        document.getElementById('modalReference').innerText = line.referencia || "Sem referência";
+                        document.getElementById('modalDescription').innerText = descricao; // Agora exibe a descrição correta
                         document.getElementById('dialogBox').showModal();
                     });
+
+                    actionCell.appendChild(btn);
                 });
             })
             .catch(error => console.error("Erro ao buscar os itens:", error));
     });
 });
+
+
+
